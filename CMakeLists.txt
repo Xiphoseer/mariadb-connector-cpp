@@ -450,11 +450,13 @@ IF(NOT USE_SYSTEM_INSTALLED_LIB)
     ENDIF()
     MESSAGE(STATUS "Running C/C cmake scripts")
     INCLUDE(connector_c)
-    INSTALL(FILES
-            $<TARGET_FILE:libmariadb>
-            DESTINATION ${INSTALL_LIBDIR}
-            COMPONENT ConCLib)
-    MESSAGE(STATUS "Configuring to install libmariadb to ${INSTALL_LIBDIR}")
+    IF(MARIADB_LINK_DYNAMIC)
+      INSTALL(FILES
+              $<TARGET_FILE:libmariadb>
+              DESTINATION ${INSTALL_LIBDIR}
+              COMPONENT ConCLib)
+      MESSAGE(STATUS "Configuring to install libmariadb to ${INSTALL_LIBDIR}")
+    ENDIF()
 
     SET(OWN_PLUGINS_LIST mysql_clear_password dialog client_ed25519 sha256_password caching_sha2_password)
     IF (PLUGINS_DYNAMIC)
